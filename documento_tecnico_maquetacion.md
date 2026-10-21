@@ -50,9 +50,6 @@ Se utilizó para generar la gráfica de métricas dentro del dashboard administr
 ### 3.6 SweetAlert2
 Se utiliza para mostrar mensajes de validación y éxito y para solicitar confirmación antes de cancelar citas o eliminar servicios.
 
-### 3.7 jsPDF
-Se utiliza en un script de generación reproducible para crear el informe PDF de investigación en formato A4.
-
 ---
 
 ## 4. Estructura del proyecto
@@ -89,7 +86,7 @@ Código base:
 
 El div con id="root" es donde React monta la aplicación.
 
-La página adicional `reportes.html` conserva el reporte anual previo de Chart.js; `src/reportes.js` contiene su gráfica interactiva. La configuración multipágina de Vite genera tanto la página principal Aesthetica como el reporte. El sitio se configura para publicarse bajo la ruta `/DAW1_/` en GitHub Pages.
+La página adicional `reportes.html` conserva el reporte anual previo de Chart.js; `src/reportes.js` contiene su gráfica interactiva. La configuración multipágina de Vite genera tanto la página principal Aesthetica como el reporte. El sitio se sirve desde la raíz del dominio para funcionar localmente y en servicios de hosting estático como Netlify.
 
 ---
 
@@ -494,17 +491,7 @@ El módulo adicional de citas permite al cliente revisar sus propias reservas y 
 
 Los formularios combinan atributos HTML (`required`, `min`, `max`, `minLength`, `pattern`) con validaciones JavaScript entre campos. Se validan el formato del correo, la fortaleza y coincidencia de contraseñas, una fecha futura, la disponibilidad del horario, el precio y la duración del servicio. El modo de pago en línea comprueba formato de tarjeta, vencimiento y CVC para pruebas; no se envían ni almacenan datos de tarjeta y no se realiza un cobro real. Para el modo de pago en establecimiento no se solicita información de tarjeta.
 
-## 18. Investigación en PDF y formato APA 7
-
-El script `scripts/generate-research-pdf.js` genera `public/investigacion-librerias-js-apa7.pdf` con jsPDF. El documento incluye portada académica editable, desarrollo de Chart.js, SweetAlert2 y jsPDF, su aplicación en el proyecto, limitaciones y referencias. Se descarga desde la página principal y se puede volver a generar con:
-
-```bash
-npm run report:pdf
-```
-
-Antes de entregar, se deben completar en la portada el nombre del estudiante, la institución y el docente.
-
-## 19. Consideraciones finales
+## 18. Consideraciones finales
 
 La aplicación fue desarrollada como una interfaz funcional y visualmente sólida, con una estructura basada en componentes y en un sistema de estados que permite simular una experiencia real de reserva y administración. Aunque se trabajó con LocalStorage para mantener la información, el proyecto sigue siendo una solución front-end, no una aplicación con backend y base de datos real.
 
@@ -517,10 +504,9 @@ Aun así, cumple con los objetivos principales de:
 - gestionar contenido desde el panel administrativo
 - mantener la información en el navegador sin una base de datos externa
 - presentar estadísticas, diálogos de confirmación, validaciones y gestión de citas
-- generar el informe de investigación PDF con referencias
 
 ---
 
-## 20. Conclusión
+## 19. Conclusión
 
 El proyecto logró combinar una maqueta visual moderna con una lógica funcional básica, facilitando la presentación de una aplicación de belleza y bienestar con capacidad de reserva, autenticación y administración. La utilización de React y Vite permitió mantener una estructura ordenada, versátil y fácil de mantener, además de asegurar una base sólida para futuras mejoras como backend real, conexión a base de datos o despliegue en producción.

@@ -96,11 +96,31 @@
             width: 100%;
             height: 380px;
         }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            margin-bottom: 18px;
+            padding: 10px 16px;
+            border-radius: 999px;
+            background: var(--primary-color);
+            color: #ffffff;
+            font-size: 0.9rem;
+            font-weight: 600;
+            text-decoration: none;
+            transition: background-color 0.2s ease, transform 0.2s ease;
+        }
+
+        .back-link:hover {
+            background: #1d4ed8;
+            transform: translateY(-1px);
+        }
     </style>
 </head>
 <body>
 
     <div class="container">
+        <a class="back-link" href="./" aria-label="Volver a la página principal de Aesthetica">← Volver a Aesthetica</a>
         <div class="card">
             <div class="header-section">
                 <div class="header-title">
