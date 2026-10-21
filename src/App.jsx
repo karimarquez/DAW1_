@@ -583,6 +583,17 @@ export default function App() {
             <div className="map-container">Soyapango, San Salvador · Atención de lunes a domingo</div>
           </section>
 
+          <section className="container section-block report-cta">
+            <div>
+              <span className="eyebrow">Aesthetica en cifras</span>
+              <h2 className="section-title">Consulta nuestras estadísticas</h2>
+              <p>Explora el rendimiento de los servicios y compara los resultados por año.</p>
+            </div>
+            <a className="btn-primary" href="./reportes.html">
+              Ver gráficas
+            </a>
+          </section>
+
         </main>
       )}
 

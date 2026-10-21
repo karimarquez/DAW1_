@@ -11,10 +11,10 @@ const meses = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', '
 
 const ctx = document.getElementById('miGrafico').getContext('2d');
 
-// Crear un degradado azul elegante
+// Crear un degradado café cálido
 const gradient = ctx.createLinearGradient(0, 0, 0, 400);
-gradient.addColorStop(0, 'rgba(37, 99, 235, 0.9)');   // Azul vibrante arriba
-gradient.addColorStop(1, 'rgba(96, 165, 250, 0.25)'); // Azul suave transparente abajo
+gradient.addColorStop(0, 'rgba(137, 86, 78, 0.92)');
+gradient.addColorStop(1, 'rgba(189, 138, 120, 0.3)');
 
 // Crear la gráfica
 const miGrafico = new Chart(ctx, {
@@ -25,11 +25,11 @@ const miGrafico = new Chart(ctx, {
             label: 'Servicios / Citas Completadas',
             data: datosReporte['2026'],
             backgroundColor: gradient,
-            borderColor: '#2563eb',
+            borderColor: '#89564e',
             borderWidth: 1.5,
             borderRadius: 8,              // Redondeado en la punta de las barras
             borderSkipped: false,
-            hoverBackgroundColor: '#1d4ed8' // Color al pasar el cursor
+            hoverBackgroundColor: '#70443e'
         }]
     },
     options: {
@@ -45,11 +45,11 @@ const miGrafico = new Chart(ctx, {
                     pointStyle: 'circle',
                     padding: 20,
                     font: { family: 'Inter', size: 12, weight: '500' },
-                    color: '#475569'
+                    color: '#75665f'
                 }
             },
             tooltip: {
-                backgroundColor: '#0f172a',
+                backgroundColor: '#342b27',
                 titleFont: { family: 'Inter', size: 13, weight: '600' },
                 bodyFont: { family: 'Inter', size: 12 },
                 padding: 12,
@@ -66,18 +66,18 @@ const miGrafico = new Chart(ctx, {
             x: {
                 grid: { display: false }, // Ocultar rejilla vertical
                 ticks: {
-                    color: '#64748b',
+                    color: '#75665f',
                     font: { family: 'Inter', size: 11 }
                 }
             },
             y: {
                 beginAtZero: true,
                 grid: {
-                    color: '#f1f5f9', // Líneas horizontales muy suaves
+                    color: '#eee5de',
                     drawBorder: false
                 },
                 ticks: {
-                    color: '#64748b',
+                    color: '#75665f',
                     font: { family: 'Inter', size: 11 },
                     stepSize: 20
                 }
