@@ -583,21 +583,6 @@ export default function App() {
             <div className="map-container">Soyapango, San Salvador · Atención de lunes a domingo</div>
           </section>
 
-          <section className="container report-download">
-            <div>
-              <span className="eyebrow">Material académico</span>
-              <h2>Investigación de las librerías JavaScript utilizadas</h2>
-              <p>Informe con citas y referencias en formato APA, séptima edición.</p>
-            </div>
-            <div className="report-actions">
-              <a className="btn-primary" href="./investigacion-librerias-js-apa7.pdf" download>
-                Descargar informe PDF
-              </a>
-              <a className="btn-secondary" href="./reportes.html">
-                Ver reporte estadístico
-              </a>
-            </div>
-          </section>
         </main>
       )}
 

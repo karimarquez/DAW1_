@@ -1456,34 +1456,6 @@ select:focus-visible {
   margin-left: 0.5rem;
 }
 
-.report-download {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 2rem;
-  margin-bottom: 3rem;
-  padding: 2rem;
-  background: #f3e9e1;
-  border: 1px solid rgba(137, 86, 78, 0.12);
-  border-radius: 22px;
-}
-
-.report-download h2 {
-  margin-bottom: 0.35rem;
-  font-size: clamp(1.25rem, 3vw, 1.8rem);
-}
-
-.report-download p {
-  color: #75665f;
-}
-
-.report-actions {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  flex-wrap: wrap;
-}
-
 .swal2-popup {
   border-radius: 22px !important;
   font-family: var(--font-family) !important;
@@ -1491,16 +1463,6 @@ select:focus-visible {
 
 @media (max-width: 768px) {
   .appointment-card,
-  .report-download {
-    align-items: flex-start;
-    flex-direction: column;
-  }
-
-  .report-actions {
-    align-items: stretch;
-    flex-direction: column;
-  }
-
   .payment-demo-fields .form-row {
     display: block;
   }
