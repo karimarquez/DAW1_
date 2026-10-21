@@ -60,9 +60,11 @@ Se utiliza en un script de generación reproducible para crear el informe PDF de
 La estructura principal del proyecto fue la siguiente:
 
 - index.html
+- reportes.html
 - src/main.jsx
 - src/App.jsx
 - src/index.css
+- src/reportes.js
 - package.json
 
 ### 4.1 index.html
@@ -86,6 +88,8 @@ Código base:
 ```
 
 El div con id="root" es donde React monta la aplicación.
+
+La página adicional `reportes.html` conserva el reporte anual previo de Chart.js; `src/reportes.js` contiene su gráfica interactiva. La configuración multipágina de Vite genera tanto la página principal Aesthetica como el reporte. El sitio se configura para publicarse bajo la ruta `/DAW1_/` en GitHub Pages.
 
 ---
 

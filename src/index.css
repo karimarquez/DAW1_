@@ -1477,6 +1477,13 @@ select:focus-visible {
   color: #75665f;
 }
 
+.report-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
 .swal2-popup {
   border-radius: 22px !important;
   font-family: var(--font-family) !important;
@@ -1486,6 +1493,11 @@ select:focus-visible {
   .appointment-card,
   .report-download {
     align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .report-actions {
+    align-items: stretch;
     flex-direction: column;
   }
 
