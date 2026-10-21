@@ -47,6 +47,12 @@ Los estilos fueron definidos en un archivo independiente para mantener una estru
 ### 3.5 Chart.js
 Se utilizó para generar la gráfica de métricas dentro del dashboard administrativo.
 
+### 3.6 SweetAlert2
+Se utiliza para mostrar mensajes de validación y éxito y para solicitar confirmación antes de cancelar citas o eliminar servicios.
+
+### 3.7 jsPDF
+Se utiliza en un script de generación reproducible para crear el informe PDF de investigación en formato A4.
+
 ---
 
 ## 4. Estructura del proyecto
@@ -214,53 +220,71 @@ Se definieron colores base para mantener una identidad visual consistente:
 
 ```css
 :root {
-  --color-primary: #5c8db0;
-  --color-secondary: #7db7d9;
-  --color-accent: #a8d6ea;
-  --color-light-surface: #dfeaf2;
-  --color-bg: #edf6fb;
-  --color-text: #1f3d57;
+  --color-primary: #89564e;
+  --color-secondary: #bd8a78;
+  --color-accent: #e7d4c5;
+  --color-light-surface: #f2e9e0;
+  --color-bg: #fbf8f4;
+  --color-text: #342b27;
 }
 ```
+
+La identidad visual se actualizó con tonos cálidos inspirados en un espacio de bienestar. Los componentes comparten estas variables para conservar contraste y consistencia.
 
 ### 9.2 Fondo y diseño del hero
 ```css
 .hero-section {
-  padding: 4.5rem 0 3.5rem;
-  background: linear-gradient(135deg, #edf6fb 0%, #b8d9eb 38%, #90c1d6 100%);
+  background:
+    radial-gradient(ellipse at 78% 25%, rgba(255, 255, 255, 0.88), transparent 32%),
+    linear-gradient(120deg, #f7eee6 0%, #f1e1d4 50%, #e7cfc0 100%);
 }
 ```
 
-### 9.3 Tarjetas y botones
+El hero y los paneles visuales utilizan gradientes CSS y formas decorativas, sin depender de imágenes externas.
+
+### 9.3 Tarjetas, botones y accesibilidad
 ```css
 .card {
-  background: linear-gradient(180deg, rgba(255,255,255,0.92), rgba(220,232,240,0.9));
+  background: rgba(255, 255, 255, 0.82);
   border-radius: 24px;
-  box-shadow: 0 14px 22px rgba(31, 61, 87, 0.08);
+  box-shadow: 0 14px 36px rgba(69, 49, 40, 0.055);
 }
 
 .btn-primary {
-  background-color: var(--color-primary);
+  background: var(--color-primary);
   color: var(--color-white);
+}
+
+button:focus-visible,
+input:focus-visible,
+select:focus-visible {
+  outline: 3px solid rgba(189, 138, 120, 0.55);
+  outline-offset: 3px;
 }
 ```
 
 ### 9.4 Diseño responsive
-Para adaptarse a pantallas pequeñas, se añadió media query:
+La interfaz reorganiza el hero, los formularios y las tarjetas en pantallas pequeñas. También compacta la navegación y permite desplazar horizontalmente la tabla administrativa en móvil:
 
 ```css
 @media (max-width: 768px) {
-  .hero-inner {
+  .hero-inner,
+  .split-section {
     grid-template-columns: 1fr;
   }
 
-  .two-columns {
+  .specialist-grid {
     grid-template-columns: 1fr;
+  }
+
+  .data-table {
+    display: block;
+    overflow-x: auto;
   }
 }
 ```
 
-Esto permite que la página se vea bien en móvil, tablet y escritorio.
+Un segundo punto de adaptación a 480 px ajusta el encabezado, el hero y los controles para teléfonos pequeños.
 
 ---
 
@@ -289,13 +313,20 @@ const handleLogin = (event) => {
 };
 ```
 
-### 10.2 Registro
+### 10.2 Registro y validación
 ```jsx
-if (registerForm.password.length < 6) {
-  setNotice({ type: 'error', text: 'La contraseña debe tener al menos 6 caracteres.' });
+if (
+  registerForm.password.length < 8 ||
+  !/[A-Z]/.test(registerForm.password) ||
+  !/[a-z]/.test(registerForm.password) ||
+  !/\d/.test(registerForm.password)
+) {
+  setNotice({ type: 'error', text: 'La contraseña debe tener 8 caracteres, mayúscula, minúscula y número.' });
   return;
 }
 ```
+
+Además, se comprueba la coincidencia de las contraseñas, que el nombre no esté vacío y que el correo no esté duplicado. Estas reglas son validaciones del lado del navegador y no reemplazan la validación de un servidor.
 
 ### 10.3 Roles
 Se asignaron dos tipos de usuarios:
@@ -359,9 +390,7 @@ setServices((current) =>
 ```
 
 ### 12.3 Eliminar servicio
-```jsx
-setServices((current) => current.filter((service) => service.id !== serviceId));
-```
+La eliminación solicita confirmación con SweetAlert2. Si se acepta, el servicio se quita del catálogo y sus citas se conservan como historial.
 
 ---
 
@@ -400,11 +429,15 @@ La vista administrativa permite ver:
 
 Se hace con cálculos sobre el arreglo de reservas.
 
+Los ingresos se calculan solo con las citas confirmadas; las canceladas y pendientes no se contabilizan como ventas.
+
 Ejemplo:
 
 ```jsx
 const dashboardStats = useMemo(() => {
-  const totalRevenue = appointments.reduce((sum, appointment) => sum + Number(appointment.price || 0), 0);
+  const totalRevenue = appointments
+    .filter((appointment) => appointment.status === 'confirmado')
+    .reduce((sum, appointment) => sum + Number(appointment.price || 0), 0);
   const pending = appointments.filter((item) => item.status === 'pendiente').length;
   const confirmed = appointments.filter((item) => item.status === 'confirmado').length;
 
@@ -447,7 +480,27 @@ const chartData = useMemo(() => {
 
 ---
 
-## 16. Consideraciones finales
+## 16. Diálogos y gestión adicional de citas
+
+SweetAlert2 se usa para comunicar resultados de validación y operaciones, y para confirmar acciones destructivas. El usuario puede confirmar o cancelar una acción antes de que se actualice el estado.
+
+El módulo adicional de citas permite al cliente revisar sus propias reservas y solicitar cancelación. El administrador consulta la lista completa y puede confirmar o cancelar citas. La disponibilidad de horarios se filtra para evitar reservar una hora ocupada por el mismo especialista.
+
+## 17. Validaciones avanzadas y pago de demostración
+
+Los formularios combinan atributos HTML (`required`, `min`, `max`, `minLength`, `pattern`) con validaciones JavaScript entre campos. Se validan el formato del correo, la fortaleza y coincidencia de contraseñas, una fecha futura, la disponibilidad del horario, el precio y la duración del servicio. El modo de pago en línea comprueba formato de tarjeta, vencimiento y CVC para pruebas; no se envían ni almacenan datos de tarjeta y no se realiza un cobro real. Para el modo de pago en establecimiento no se solicita información de tarjeta.
+
+## 18. Investigación en PDF y formato APA 7
+
+El script `scripts/generate-research-pdf.js` genera `public/investigacion-librerias-js-apa7.pdf` con jsPDF. El documento incluye portada académica editable, desarrollo de Chart.js, SweetAlert2 y jsPDF, su aplicación en el proyecto, limitaciones y referencias. Se descarga desde la página principal y se puede volver a generar con:
+
+```bash
+npm run report:pdf
+```
+
+Antes de entregar, se deben completar en la portada el nombre del estudiante, la institución y el docente.
+
+## 19. Consideraciones finales
 
 La aplicación fue desarrollada como una interfaz funcional y visualmente sólida, con una estructura basada en componentes y en un sistema de estados que permite simular una experiencia real de reserva y administración. Aunque se trabajó con LocalStorage para mantener la información, el proyecto sigue siendo una solución front-end, no una aplicación con backend y base de datos real.
 
@@ -459,9 +512,11 @@ Aun así, cumple con los objetivos principales de:
 - diferenciar usuarios por rol
 - gestionar contenido desde el panel administrativo
 - mantener la información en el navegador sin una base de datos externa
+- presentar estadísticas, diálogos de confirmación, validaciones y gestión de citas
+- generar el informe de investigación PDF con referencias
 
 ---
 
-## 17. Conclusión
+## 20. Conclusión
 
 El proyecto logró combinar una maqueta visual moderna con una lógica funcional básica, facilitando la presentación de una aplicación de belleza y bienestar con capacidad de reserva, autenticación y administración. La utilización de React y Vite permitió mantener una estructura ordenada, versátil y fácil de mantener, además de asegurar una base sólida para futuras mejoras como backend real, conexión a base de datos o despliegue en producción.
