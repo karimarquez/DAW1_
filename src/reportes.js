@@ -1,3 +1,5 @@
+import Chart from 'chart.js/auto';
+
 // Datos por año
 const datosReporte = {
     '2026': [42, 58, 65, 78, 90, 85, 95, 110, 105, 98, 115, 120],
